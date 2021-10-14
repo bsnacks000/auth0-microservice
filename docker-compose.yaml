@@ -1,0 +1,64 @@
+version: '3.4'
+# x-default-environment:
+#   &default-environment
+#     - MONGO_USERNAME=${MONGO_USERNAME}
+#     - MONGO_PASSWORD=${MONGO_PASSWORD} 
+#     - MONGO_HOST=${MONGO_HOST}
+#     - MONGO_PORT=${MONGO_PORT}
+#     - MONGO_DB=${MONGO_DB}
+#     - MONGO_PROTOCOL=${MONGO_PROTOCOL}
+#     - ENVIRONMENT=${ENVIRONMENT}
+#     - FIREBASE_PROJECT_ID=${FIREBASE_PROJECT_ID}
+    
+services:
+    
+  # mongo:
+  #   container_name: auth0_mongo 
+  #   image: mongo:4.4.8
+  #   hostname: mongo
+  #   restart: "no"
+  #   ports:
+  #     - "27017:27017"  # just for local dev 
+  #   volumes:
+  #     - mongodata:/data/db
+
+  users-backend:
+    container_name: auth0_users_backend
+    image: users-backend:development
+    env_file:
+      - ./users-backend/.env
+    restart: 'no'
+    build:
+        context: ./users-backend
+        dockerfile: ./Dockerfile
+        target: development
+    volumes:
+        - .:/code
+    ports:
+      - "8000:8000"
+    command: uvicorn users-backend.users_backend.main:app --host=0.0.0.0 --port=8000 --reload
+    # depends_on:
+    #   - mongo
+    
+  
+  users-frontend:
+    container_name: auth0_users_frontend
+    image: users-frontend:development
+    env_file:
+      - ./users-frontend/.env
+    restart: 'no'
+    build:
+        context: ./users-frontend
+        dockerfile: ./Dockerfile
+        target: development
+    # entrypoint: /code/docker-entrypoint.sh
+    volumes:
+        - .:/code
+    ports:
+      - "3000:3000"
+    depends_on:
+      - users-backend
+   
+# volumes:
+#   mongodata:
+  
