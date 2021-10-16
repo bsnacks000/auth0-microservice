@@ -21,7 +21,7 @@ const ExternalApi = () => {
 
   const callSecureApi = async () => {
     try {
-      const token = await getAccessTokenSilently();
+      const token = await getAccessTokenSilently({ scope: "read:users"});
 
       const response = await fetch(
         `${serverUrl}/secure`,
@@ -39,6 +39,29 @@ const ExternalApi = () => {
       setMessage(error.message);
     }
   };
+
+  const callSecureApi2 = async () => {
+    try {
+      const token = await getAccessTokenSilently();
+
+      const response = await fetch(
+        `${serverUrl}/secure/users`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      const responseData = await response.json();
+
+      setMessage(responseData.message);
+    } catch (error) {
+      setMessage(error.message);
+    }
+  };
+
+
 
   return (
     <div className="container">
@@ -62,6 +85,13 @@ const ExternalApi = () => {
           onClick={callSecureApi}
         >
           Get Protected Message
+        </button>
+        <button
+          type="button"
+          className="btn btn-primary"
+          onClick={callSecureApi2}
+        >
+          Get Protected Message 2
         </button>
       </div>
       {message && (

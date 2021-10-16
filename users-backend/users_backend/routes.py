@@ -14,3 +14,8 @@ async def get_secure(user: Auth0User = Security(Auth.get_user)):
 @router.get("/secure/users", dependencies=[Depends(Auth.implicit_scheme)])
 async def get_secure_scoped(user: Auth0User = Security(Auth.get_user, scopes=["read:users"])):
     return {"message": f"{user}"}
+
+
+@router.get("/secure/users2")
+async def get_secure_scoped2(user: Auth0User = Security(Auth.get_user, scopes=["read:users"])):
+    return {"message": f"{user}"}
