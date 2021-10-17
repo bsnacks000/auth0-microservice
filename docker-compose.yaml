@@ -51,11 +51,12 @@ services:
         context: ./users-frontend
         dockerfile: ./Dockerfile
         target: development
-    # entrypoint: /code/docker-entrypoint.sh
+    # entrypoint: /app/entrypoint.sh
     volumes:
         - .:/code
     ports:
       - "3000:3000"
+    command: npm start
     depends_on:
       - users-backend
    

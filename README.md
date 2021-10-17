@@ -21,6 +21,7 @@ Now set `namespace` without the ending slash  as `AUTH0_RULE_NAMESPACE` in .env;
 #### REACT APP (SPA)
 * Create an SPA application in Auth0's `Applications.Applications`; set `Domain` found in `Applications.Application.<API_NAME>.Settings` as `REACT_APP_AUTH0_DOMAIN` and `Client ID` as `REACT_APP_AUTH0_CLIENT_ID`; and `AUTH0_API_AUDIENCE` from API's .env as `REACT_APP_AUTH0_AUDIENCE`.
 * Make sure that scopes/permissions declared in APIs are also provided in `Auth0Provider`. See `users-frontend/src/auth/Auth0ProviderWithHistory` and [here](https://auth0.com/blog/complete-guide-to-react-user-authentication/#Calling-an-API)(scopes are talked about near the end of 'Calling an API' section). Multiple scopes can be provided by separating with a space.
+* Set API url as `REACT_APP_SERVER_URL` in .env
 
 **Note** Permissions are configured differently for Machine to Machine Application. Permissions can be added via `Applications.Applications.<Machine to Machine App name>.APIs`. Requesting for access token for machine to machine application can be tested via  `Applications.APIs.<API_NAME>.Test`.
 
